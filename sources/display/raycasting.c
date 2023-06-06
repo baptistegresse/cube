@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:10:17 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/05 20:08:36 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/06 11:57:19 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,65 @@ void  dda_algo(t_data *data)
       data->ray.perp_wall_dist = (data->ray.side_dist.y - data->ray.delta_dist.y);        
 }
 
-void  calc_wall(t_data *data, int x)
+void calc_wall(t_data *data, int x)
 {
+    // Calculate height of line to draw on screen
+    int lineHeight = (int)(WIN_H / data->ray.perp_wall_dist);
 
-      //Calculate height of line to draw on screen
-      int lineHeight = (int)(WIN_H / data->ray.perp_wall_dist);
+    // calculate lowest and highest pixel to fill in current stripe
+    int texNum;
 
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + WIN_H / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + WIN_H / 2;
-      if(drawEnd >= WIN_H)drawEnd = WIN_H - 1;
-  
-      for (int y = 0; y < WIN_H; y++)
-      {
+    if (data->ray.side == 0)
+    {
+        if (data->ray.dir.x > 0)
+            texNum = 1; // South
+        else
+            texNum = 0; // North
+    }
+    else
+    {
+        if (data->ray.dir.y > 0)
+            texNum = 3; // East
+        else
+            texNum = 2; // West
+    }
+
+    int drawStart = -lineHeight / 2 + WIN_H / 2;
+    if(drawStart < 0) drawStart = 0;
+    int drawEnd = lineHeight / 2 + WIN_H / 2;
+    if(drawEnd >= WIN_H) drawEnd = WIN_H - 1;
+
+    double wallX;
+    if(data->ray.side == 0)
+        wallX = data->player.pos.y + data->ray.perp_wall_dist * data->ray.dir.y;
+    else
+        wallX = data->player.pos.x + data->ray.perp_wall_dist * data->ray.dir.x;
+    wallX -= floor(wallX);
+
+    // Compute the X coordinate on the texture
+    int texX = (int)(wallX * (double)(data->text[texNum].width));
+
+    // Modify texX based on direction of ray
+    if ((data->ray.side == 0 && data->ray.dir.x < 0) || (data->ray.side == 1 && data->ray.dir.y > 0))
+        texX = data->text[texNum].width - texX - 1;
+
+    for (int y = 0; y < WIN_H; y++)
+    {
         if (y < drawStart)
-          my_mlx_pixel_put(data, x, y, data->params.celling_color);
-        else if (y < drawEnd)
-          my_mlx_pixel_put(data, x, y, 0x44444);
-        else if (y < WIN_H)
-          my_mlx_pixel_put(data, x, y, data->params.floor_color);
-      }
+            my_mlx_pixel_put(data, x, y, data->params.celling_color);
+        else if (y >= drawStart && y < drawEnd)
+        {
+            int d = y * 256 - WIN_H * 128 + lineHeight * 128; // 256 and 128 factors to avoid floats
+            int texY = ((d * data->text[texNum].height) / lineHeight) / 256;
+
+            // Getting color from texture image data
+            int color = *(int*)(data->text[texNum].data + ((texY * data->text[texNum].size_line) + texX * (data->text[texNum].bpp / 8)));
+            my_mlx_pixel_put(data, x, y, color);
+        }
+        else if (y >= drawEnd)
+            my_mlx_pixel_put(data, x, y, data->params.floor_color);
+    }
 }
+
+
+

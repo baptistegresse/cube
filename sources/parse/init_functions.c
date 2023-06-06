@@ -6,14 +6,14 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:52:20 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/05 21:40:00 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/06 11:06:25 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 
-int	init_data(t_data *data)
+bool	init_data(t_data *data)
 {
 	// parsing 
 	data->map.num_of_player = 0;
@@ -45,8 +45,6 @@ int	init_data(t_data *data)
     data->player.pos.x = 0; // x_start doit être défini en fonction de votre carte
     data->player.pos.y = 0; // y_start doit être défini en fonction de votre carte
 
-    data->player.move.x = 0;
-    data->player.move.y = 0;
     data->player.plane.x = 0;
     data->player.plane.y = 0.66;
 

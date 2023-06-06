@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/13 22:12:09 by jcluzet           #+#    #+#             */
-/*   Updated: 2023/06/05 21:44:51 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/06 11:06:32 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,8 @@ typedef struct s_player
 {
     t_float_vector pos;
     t_float_vector dir;
-    t_float_vector move;
     t_float_vector plane;
     char dir_base;
-    float rotation;
     float angle;
 } t_player;
 
@@ -134,7 +132,6 @@ typedef struct s_map
 	bool			**visited;
 	int				width;
 	int				height;
-	int				wall_color;
 }	t_map;
 
 typedef struct s_win
@@ -158,14 +155,17 @@ typedef struct  s_keys
     bool    rot_left;
 }	t_keys;
 
-typedef struct s_img
+typedef struct  s_img
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
+    void        *img;       // Pointer to the image
+    char        *data;      // Pointer to the actual pixel data
+    int         width;      // Width of the image
+    int         height;     // Height of the image
+    int         bpp;        // Bits per pixel
+    int         size_line;  // Size of a line (in bytes)
+    int         endian;     // Pixel byte order, set to 0 if BGR
 }	t_img;
+
 
 typedef struct s_data
 {
@@ -176,6 +176,7 @@ typedef struct s_data
 	t_win       	win;
     t_ray       	ray;
 	t_keys			keys;
+	t_img			text[4];
 }	t_data;
 
 t_m_free		*free_init(void);
@@ -207,7 +208,7 @@ bool	cube_parser(t_data *data, char *argv);
 
 /* init_functions.c */
 
-int	init_data(t_data *data);
+bool	init_data(t_data *data);
 
 /* parse_map_functions.c */
 

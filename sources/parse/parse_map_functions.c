@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:50:25 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/05 20:06:22 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/06 12:18:17 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,37 @@ bool	malloc_map_visited(t_data *data)
 	return (true);
 }
 
-void    get_position_player(t_data *data, float x, float y, char dir_base)
+void get_position_player(t_data *data, float x, float y, char dir_base)
 {
     if (data->player.pos.x != 0.0f || data->player.pos.y != 0.0f)
-        return ; 
+        return ;
     data->player.pos.x = x + 0.5f;
     data->player.pos.y = y + 0.5f;
     data->player.dir_base = dir_base;
-    if (dir_base == 'N')
-		data->player.angle = (float)(3 * M_PI/2);
-	else if (dir_base == 'S')
-		data->player.angle = M_PI/2;
-	else if (dir_base == 'E')
-		data->player.angle = 0;
-	else if (dir_base == 'W')
-		data->player.angle = M_PI;
-	data->player.dir.x = cosf(data->player.angle);
-	data->player.dir.y = sinf(data->player.angle);
+    if (dir_base == 'N') {
+        data->player.angle = (float)(3 * M_PI/2);
+        data->player.plane.x = 0.66f;
+        data->player.plane.y = 0;
+    }
+    else if (dir_base == 'S') {
+        data->player.angle = M_PI/2;
+        data->player.plane.x = -0.66f;
+        data->player.plane.y = 0;
+    }
+    else if (dir_base == 'E') {
+        data->player.angle = 0;
+        data->player.plane.x = 0;
+        data->player.plane.y = 0.66f;
+    }
+    else if (dir_base == 'W') {
+        data->player.angle = M_PI;
+        data->player.plane.x = 0;
+        data->player.plane.y = -0.66f;
+    }
+    data->player.dir.x = cosf(data->player.angle);
+    data->player.dir.y = sinf(data->player.angle);
 }
+
 
 void	fill_map_array_line(t_data *data, char *line, int index)
 {

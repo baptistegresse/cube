@@ -6,16 +6,14 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:52:20 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/06 11:06:25 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:29:44 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-
 bool	init_data(t_data *data)
 {
-	// parsing 
 	data->map.num_of_player = 0;
 	data->map.start_line = 0;
 	data->map.height = 0;
@@ -38,17 +36,12 @@ bool	init_data(t_data *data)
 	data->map.ea_path_set = 0;
 	data->map.floor_color_set = 0;
 	data->map.ceiling_color_set = 0;
-	// end parsing
-    data->player.dir.x = 0;
-    data->player.dir.y = -1;
-
-    data->player.pos.x = 0; // x_start doit être défini en fonction de votre carte
-    data->player.pos.y = 0; // y_start doit être défini en fonction de votre carte
-
-    data->player.plane.x = 0;
-    data->player.plane.y = 0.66;
-
-
+	data->player.dir.x = 0;
+	data->player.dir.y = -1;
+	data->player.pos.x = 0;
+	data->player.pos.y = 0;
+	data->player.plane.x = 0;
+	data->player.plane.y = 0.66;
 	data->keys.advance = false;
 	data->keys.back = false;
 	data->keys.left = false;

@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/13 22:12:09 by jcluzet           #+#    #+#             */
-/*   Updated: 2023/06/06 11:06:32 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:43:46 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <stdbool.h>
-#include <string.h>
+# include <string.h>
 
 # if defined(__APPLE__) && defined(__MACH__)
 #  define ADVANCE 13
@@ -51,6 +51,7 @@
 # define WIN_H 1000
 # define ROT_SPEED 0.03f
 # define SPEED 0.03f
+# define MINIMAP_SIZE 10
 
 typedef struct s_free
 {
@@ -96,17 +97,17 @@ typedef struct s_params
 
 typedef struct s_player
 {
-    t_float_vector pos;
-    t_float_vector dir;
-    t_float_vector plane;
-    char dir_base;
-    float angle;
-} t_player;
+	t_float_vector	pos;
+	t_float_vector	dir;
+	t_float_vector	plane;
+	char			dir_base;
+	float			angle;
+}	t_player;
 
-typedef struct	s_ray
+typedef struct s_ray
 {
-	t_float_vector  pos;
-	t_float_vector  dir;
+	t_float_vector	pos;
+	t_float_vector	dir;
 	t_float_vector	side_dist;
 	t_float_vector	delta_dist;
 	t_float_vector	camera;
@@ -136,36 +137,35 @@ typedef struct s_map
 
 typedef struct s_win
 {
-    void			*mlx;
+	void			*mlx;
 	void			*mlx_win;
-    void			*img;
-    char			*addr;
-    int				bits_per_pixel;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
-}   t_win;
+}	t_win;
 
-typedef struct  s_keys
+typedef struct s_keys
 {
-    bool    advance;
-    bool    back;
-    bool    right;
-    bool    left;
-    bool    rot_right;
-    bool    rot_left;
+	bool			advance;
+	bool			back;
+	bool			right;
+	bool			left;
+	bool			rot_right;
+	bool			rot_left;
 }	t_keys;
 
-typedef struct  s_img
+typedef struct s_img
 {
-    void        *img;       // Pointer to the image
-    char        *data;      // Pointer to the actual pixel data
-    int         width;      // Width of the image
-    int         height;     // Height of the image
-    int         bpp;        // Bits per pixel
-    int         size_line;  // Size of a line (in bytes)
-    int         endian;     // Pixel byte order, set to 0 if BGR
+	void		*img;
+	char		*data;
+	int			width;
+	int			height;
+	int			bpp;
+	int			size_line;
+	int			endian;
 }	t_img;
-
 
 typedef struct s_data
 {
@@ -173,98 +173,101 @@ typedef struct s_data
 	t_map			map;
 	t_player		player;
 	t_params		params;
-	t_win       	win;
-    t_ray       	ray;
+	t_win			win;
+	t_ray			ray;
 	t_keys			keys;
 	t_img			text[4];
 }	t_data;
 
-t_m_free		*free_init(void);
+t_m_free	*free_init(void);
 
-void			ft_free(t_m_free *m_free);
+void		ft_free(t_m_free *m_free);
 
-void			*free_malloc(t_m_free *m_free, size_t size);
+void		*free_malloc(t_m_free *m_free, size_t size);
 
-void			free_remove(t_m_free *m_free, void *ptr);
-void			free_remove_if(t_free **begin_list, void *ptr_ref);
+void		free_remove(t_m_free *m_free, void *ptr);
+void		free_remove_if(t_free **begin_list, void *ptr_ref);
 
-int				free_add(t_m_free *m_free, void *ptr);
-int				free_add_value(t_m_free *m_free, t_free *new, t_free *tmp);
+int			free_add(t_m_free *m_free, void *ptr);
+int			free_add_value(t_m_free *m_free, t_free *new, t_free *tmp);
 
-int				free_size(t_m_free *m_free);
+int			free_size(t_m_free *m_free);
 
 /* check1_functions.c */
 
-bool	textures_are_valid(t_data *data);
-bool	is_map_line(char *line);
-bool	check_value_of_map(t_data *data, char *line, int file_descriptor);
-bool	check_validity_of_map(t_data *data, char *argv);
+bool		textures_are_valid(t_data *data);
+bool		is_map_line(char *line);
+bool		check_value_of_map(t_data *data, char *line, int file_descriptor);
+bool		check_validity_of_map(t_data *data, char *argv);
 
 /* check2_functions.c */
 
-bool	paths_rgb_are_filled(t_data *data);
-bool	map_unclosed(t_data *data, int x, int y, bool **visited);
-bool	cube_parser(t_data *data, char *argv);
+bool		paths_rgb_are_filled(t_data *data);
+bool		map_unclosed(t_data *data, int x, int y, bool **visited);
+bool		cube_parser(t_data *data, char *argv);
 
 /* init_functions.c */
 
-bool	init_data(t_data *data);
+bool		init_data(t_data *data);
 
 /* parse_map_functions.c */
 
-bool	get_size_of_map(t_data *data, char *argv);
-bool	malloc_map_visited(t_data *data);
-void    get_position_player(t_data *data, float x, float y, char dir_base);
-void	fill_map_array_line(t_data *data, char *line, int index);
-bool	fill_map_array(t_data *data, char *argv);
+bool		get_size_of_map(t_data *data, char *argv);
+bool		malloc_map_visited(t_data *data);
+void		get_position_player(t_data *data, float x, float y, char dir_base);
+void		fill_map_array_line(t_data *data, char *line, int index);
+bool		fill_map_array(t_data *data, char *argv);
 
 /* parse_paths_rgb_functions.c */
 
-void	get_color_value(t_data *data, t_rgb *rgb, char *line);
-void	get_path_value(t_data *data, char **path, char *line);
-void	fill_paths_rgb(t_data *data, char *line);
-bool	paths_rgb_duplicate(t_data *data);
-bool	get_file_paths_rgb(t_data *data, char *argv);
+void		get_color_value(t_data *data, t_rgb *rgb, char *line);
+void		get_path_value(t_data *data, char **path, char *line);
+void		fill_paths_rgb(t_data *data, char *line);
+bool		paths_rgb_duplicate(t_data *data);
+bool		get_file_paths_rgb(t_data *data, char *argv);
 
 /* set_colors */
 
-int     rgb_to_int(t_rgb color);
-int     set_color_cell(t_data *data, int x, int y);
+int			rgb_to_int(t_rgb color);
+int			set_color_cell(t_data *data, int x, int y);
 
 /* utils1_functions.c */
 
-size_t	ft_strlen(const char *str);
-char	*ft_strdup(t_data *data, const char *src);
-int     ft_atoi(const char *str);
+size_t		ft_strlen(const char *str);
+char		*ft_strdup(t_data *data, const char *src);
+int			ft_atoi(const char *str);
 
 /* utils2_functions.c */
 
-char	*get_next_line(t_data *data, int fd);
-void	*ft_calloc(t_data *data, size_t num, size_t size);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*ft_strndup(t_data *data, const char *src, size_t n);
+char		*get_next_line(t_data *data, int fd);
+void		*ft_calloc(t_data *data, size_t num, size_t size);
+void		*ft_memcpy(void *dst, const void *src, size_t n);
+char		*ft_strndup(t_data *data, const char *src, size_t n);
 
 /* handler.c */
 
-int     handle_keypress(int keycode, t_data *data);
+int			handle_keypress(int keycode, t_data *data);
+int			handle_keyrelease(int keycode, t_data *data);
+void		handle_direction(t_data *data, double *new_x, double *new_y);
+void		handle_rotation(t_data *data);
+void		update_player(t_data *data);
 
 /* minimap.c */
 
-void    drawRect(t_data *data, int x0, int y0, int width, int height, int color);
-void    draw_minimap(t_data *data);
-void    display_game(t_data *data);
+bool		load_textures(t_data *data); // a finir
+int			get_minimap_color(t_data *data, int x, int y);
+void		draw_minimap(t_data *data);
 
 /* mlx_utils.c */
 
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int			loop_hook(t_data *data);
+void		display_game(t_data *data);
 
 /* raycasting.c */
 
-void 	draw_3d(t_data *data);
+void		raycasting(t_data *data);
+void		dda_algo(t_data *data);
+void		calc_wall(t_data *data, int x);
 
-
-void	put_pxl_img(t_img *img, int x, int y, int color);
-void    raycasting(t_data *data);
-int     handle_keyrelease(int keycode, t_data *data);
-void    update_player(t_data *data);
 #endif

@@ -6,20 +6,12 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/08 19:25:03 by jcluzet           #+#    #+#             */
-/*   Updated: 2023/06/06 11:07:06 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/07 11:36:52 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-
-int	error(t_data *data, char *string)
-{
-	ft_free(data->garbage);
-	write(2, "Error\n", 6);
-	write(2, string, strlen(string));
-	return (EXIT_FAILURE);
-}
 
 int main(int argc, char *argv[])
 {

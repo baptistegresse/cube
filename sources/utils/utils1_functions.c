@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 17:38:56 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/01 21:40:21 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:35:53 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,24 @@ char	*ft_strdup(t_data *data, const char *src)
 	return (new_str);
 }
 
-
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-    int result = 0;
-    bool negative = false;
+	int		result;
+	bool	negative;
 
-    if (*str == '-')
-    {
-        negative = true;
-        str++;
-    }
-
-    while (*str >= '0' && *str <= '9')
-    {
-        result = result * 10 + (*str - '0');
-        str++;
-    }
-
-    if (negative)
-        result = -result;
-
-    return result;
+	result = 0;
+	negative = 0;
+	if (*str == '-')
+	{
+		negative = true;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	if (negative)
+		result = -result;
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: bgresse <bgresse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:22:44 by bgresse           #+#    #+#             */
-/*   Updated: 2023/06/06 11:20:27 by bgresse          ###   ########.fr       */
+/*   Updated: 2023/06/07 12:34:20 by bgresse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ bool	map_unclosed(t_data *data, int x, int y, bool **visited)
 	bool	left;
 	bool	right;
 
-	if (x < 0 || x >= data->map.width || y < 0 || y >= data->map.height || data->map.array[y][x] == '3')
+	if (x < 0 || x >= data->map.width || y < 0 || \
+	y >= data->map.height || data->map.array[y][x] == '3')
 		return (false);
 	if (visited[y][x] || data->map.array[y][x] == '1')
 		return (true);
